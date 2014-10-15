@@ -7,9 +7,6 @@ ENDM
 ROM_CLS       EQU $0D6B
 ROM_CHAN_OPEN EQU $1601
 
-ldr_string:
-db '     PRESS ANY KEY TO START     ',0
-
 loader:
  ; store main registers
  push af
@@ -105,6 +102,9 @@ ldr_kb_loop:
  pop bc
  pop af
  ret
+
+ldr_string:
+db '     PRESS ANY KEY TO START     ',0
 
 ; our custom interrupt handler
 org $8181
