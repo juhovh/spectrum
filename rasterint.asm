@@ -1,35 +1,21 @@
-
-; beginning always 23 cycles
-
 interrupt:
- push hl         ; 11    11
- push de         ; 11    22
- push bc         ; 11    33
- push af         ; 11    44
- ld hl,$51df     ; 10    54
- ld c,$07        ; 7     61
-loop1:           ; contents 1041
- ld b,$20        ; 7     68
-loop2:           ; contents 19
- rl (hl)         ; 15    83
- dec l           ; 4     87
- djnz loop2      ; 1000  1087    31*(19+13)+8
- ld l,$df        ; 7     1094
- inc h           ; 4     1098
- dec c           ; 4     1102
- jp nz,loop1     ; 6316  7418    6*(1041+10)+10
- ld c,$02        ; 7     7425
-loop3:           ; contents 3295
- ld b,$fd        ; 7     7432
- djnz $          ; 3284  10716   252*13+8
- dec c           ; 4     10720
- jr nz,loop3     ; 3314  14034   1*(3295+10)+7
- nop             ; 4     14038
- nop             ; 4     14042
- ld de,fillerdata; 10    14052
- ld a,0          ; 7     14059
+ di              ; 4     4
+ push hl         ; 11    15
+ push de         ; 11    26
+ push bc         ; 11    37
+ push af         ; 11    48
 
- call filler     ; 17    14076
+ ld bc,538       ; 10    58
+loop:            ; contents 26
+ dec bc          ; 6     64
+ ld a,b          ; 4     68
+ or c            ; 4     72
+ jr nz,loop      ; 13969 14041
+
+ ld de,fillerdata; 10    14051
+ ld a,0          ; 7     14058
+ call filler     ; 17    14075
+
  pop af 
  pop bc 
  pop de 
@@ -63,14 +49,14 @@ db $37, $37, $3f, $37, $36, $1e, $1b, $03
 ;; even interrupt handler can vary -+3 T states, so we should aim to the
 ;; middle, which is 14113 T states.
 ;;
+;; Further runs of this routine should always be exactly 2*228 = 456 T states
+;; long, because our handling of contended memory should always add exactly 84
+;; extra T states to the loop.
+;;
 ;; On Spectrum +2A and +3 we seem to have problems if the routine starts at
 ;; 14113 T states, but we can tune it down to 14109 T states and things work
 ;; much nicer on all 128K platforms, this seems to be a glitch with a
 ;; different contended memory delay pattern that can be fixed by being early.
-;;
-;; Further runs of this routine should always be exactly 2*228 = 456 T states
-;; long, because our handling of contended memory should always add exactly 84
-;; extra T states to the loop.
 
 outloop MACRO address
  ld b,4
