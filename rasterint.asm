@@ -26,11 +26,10 @@ loop3:           ; contents 3295
  jr nz,loop3     ; 3314  14034   1*(3295+10)+7
  nop             ; 4     14038
  nop             ; 4     14042
- nop             ; 4     14046
- ld de,fillerdata; 10    14056
- ld a,0          ; 7     14063
+ ld de,fillerdata; 10    14052
+ ld a,0          ; 7     14059
 
- call filler     ; 17    14080
+ call filler     ; 17    14076
  pop af 
  pop bc 
  pop de 
@@ -61,8 +60,13 @@ db $37, $37, $3f, $37, $36, $1e, $1b, $03
 ;; first out instruction is 11 T states and our ld instruction is 7 T states,
 ;; we should start running this routine between 14087 and 14139 T states after
 ;; interrupt. Handling contended memory makes our routine very unstable and
-;; even interrupt handler can vary -+3 T states, so we should definitely aim
-;; to the middle, which is 14113 T states.
+;; even interrupt handler can vary -+3 T states, so we should aim to the
+;; middle, which is 14113 T states.
+;;
+;; On Spectrum +2A and +3 we seem to have problems if the routine starts at
+;; 14113 T states, but we can tune it down to 14109 T states and things work
+;; much nicer on all 128K platforms, this seems to be a glitch with a
+;; different contended memory delay pattern that can be fixed by being early.
 ;;
 ;; Further runs of this routine should always be exactly 2*228 = 456 T states
 ;; long, because our handling of contended memory should always add exactly 84
@@ -128,8 +132,12 @@ filler:
  outloop $59E0
  ld b,0
  out ($fe),a
- ld b,16
+ ld b,15
  djnz $
+ nop
+ nop
+ nop
+ nop
  xor a
  out ($fe),a
  ret
