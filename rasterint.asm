@@ -58,8 +58,13 @@ db $37, $37, $3f, $37, $36, $1e, $1b, $03
 ;; much nicer on all 128K platforms, this seems to be a glitch with a
 ;; different contended memory delay pattern that can be fixed by being early.
 
-outloop MACRO address
+genfiller MACRO address, rows
+LOCAL _idx
+idx DEFL 0
+REPT rows
+ LOCAL fillloop
  ld b,4
+fillloop DEFL $
  out ($fe),a
  ld a,(de)
  ld h,a
@@ -70,23 +75,23 @@ outloop MACRO address
  rrca
  inc de
  nop
- ld (address+$00),hl
- ld (address+$02),hl
- ld (address+$04),hl
- ld (address+$06),hl
- ld (address+$08),hl
- ld (address+$0A),hl
- ld (address+$0C),hl
- ld (address+$0E),hl
+ ld (address+idx*$20+$00),hl
+ ld (address+idx*$20+$02),hl
+ ld (address+idx*$20+$04),hl
+ ld (address+idx*$20+$06),hl
+ ld (address+idx*$20+$08),hl
+ ld (address+idx*$20+$0A),hl
+ ld (address+idx*$20+$0C),hl
+ ld (address+idx*$20+$0E),hl
  out ($fe),a
- ld (address+$10),hl
- ld (address+$12),hl
- ld (address+$14),hl
- ld (address+$16),hl
- ld (address+$18),hl
- ld (address+$1A),hl
- ld (address+$1C),hl
- ld (address+$1E),hl
+ ld (address+idx*$20+$10),hl
+ ld (address+idx*$20+$12),hl
+ ld (address+idx*$20+$14),hl
+ ld (address+idx*$20+$16),hl
+ ld (address+idx*$20+$18),hl
+ ld (address+idx*$20+$1A),hl
+ ld (address+idx*$20+$1C),hl
+ ld (address+idx*$20+$1E),hl
  nop
  nop
  nop
@@ -94,30 +99,12 @@ outloop MACRO address
  ld a,l 
  and %00000111
  dec b
- jr z,$+4	; if zero, then 12 T states
- jr $-72        ; otherwise 12+7 T states
+ jr z,$+4       ; if zero, then 12 T states
+ jr fillloop    ; otherwise 12+7 T states
+idx DEFL idx + 1
 ENDM
-
-org $a000
-filler:
- outloop $5800
- outloop $5820
- outloop $5840
- outloop $5860
- outloop $5880
- outloop $58A0
- outloop $58C0
- outloop $58E0
- outloop $5900
- outloop $5920
- outloop $5940
- outloop $5960
- outloop $5980
- outloop $59A0
- outloop $59C0
- outloop $59E0
  ld b,0
- out ($fe),a
+ out ($fe),a    ; last line, nothing to do
  ld b,15
  djnz $
  nop
@@ -125,6 +112,11 @@ filler:
  nop
  nop
  xor a
- out ($fe),a
+ out ($fe),a    ; change border back to black
+ENDM
+
+org $a000
+filler:
+ genfiller $5800, 16
  ret
 
