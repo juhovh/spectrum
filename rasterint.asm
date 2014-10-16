@@ -24,22 +24,13 @@ loop3:           ; contents 3295
  djnz $          ; 3284  10716   252*13+8
  dec c           ; 4     10720
  jr nz,loop3     ; 3314  14034   1*(3295+10)+7
- ld de,fillerdata; 10    14044
- ld a,(de)       ; 7     14051
- ld h,a          ; 4     14055
- and $38         ; 7     14062
- rrca            ; 4     14066
- rrca            ; 4     14070
- rrca            ; 4     14074
- ld b,a          ; 4     14078
- inc e           ; 4     14082
- xor a           ; 4     14086
+ nop             ; 4     14038
+ nop             ; 4     14042
+ nop             ; 4     14046
+ ld de,fillerdata; 10    14056
+ ld a,0          ; 7     14063
 
- call filler     ; 17    14103
- ld b,15
- djnz $
- xor a 
- out ($fe),a
+ call filler     ; 17    14080
  pop af 
  pop bc 
  pop de 
@@ -59,30 +50,35 @@ db $37, $37, $3f, $37, $36, $1e, $1b, $03
 
 ;; The first line where this routine is relevant is the line 64, but we need
 ;; to start during line 63, which starts 62*228-24 = 14112 T states after
-;; interrupt. The first run from "ld l,h" until "out ($fe),a" takes only 155
-;; T states and our line is 24+128+24 = 176 T states long, which means we
-;; need to start in the middle and do timing based on the second "out
-;; ($fe),a". The earliest time it can happen is 14112+176 = 14288 T states
-;; after interrupt, and the latest is 63*228-24 = 14340 T states after
-;; interrupt.
+;; interrupt. The first run from "ld l,h" until "out ($fe),a" takes 183
+;; T states and our line is 24+128+24 = 176 T states long, plus we need to do
+;; the timing based on the second "out ($fe),a" because that is when contended
+;; memory starts The earliest time the second out can happen is 14112+176 =
+;; 14288 T states after interrupt, and the latest is 63*228-24 = 14340 T
+;; states after interrupt.
 ;;
-;; Because we have 155 T states between the first two out instructions and our
+;; Because we have 183 T states between the first two out instructions and our
 ;; first out instruction is 11 T states and our ld instruction is 7 T states,
-;; we should start running this routine between 14115 and 14167 T states after
+;; we should start running this routine between 14087 and 14139 T states after
 ;; interrupt. Handling contended memory makes our routine very unstable and
 ;; even interrupt handler can vary -+3 T states, so we should definitely aim
-;; to the middle, which is 14141 T states.
+;; to the middle, which is 14113 T states.
 ;;
 ;; Further runs of this routine should always be exactly 2*228 = 456 T states
 ;; long, because our handling of contended memory should always add exactly 84
 ;; extra T states to the loop.
 
 outloop MACRO address
- ld c,$04
+ ld b,4
  out ($fe),a
- ld l,h
- ld a,b
- nop
+ ld a,(de)
+ ld h,a
+ ld l,a
+ and %00111000
+ rrca
+ rrca
+ rrca
+ inc de
  nop
  ld (address+$00),hl
  ld (address+$02),hl
@@ -102,19 +98,14 @@ outloop MACRO address
  ld (address+$1C),hl
  ld (address+$1E),hl
  nop
- ld a,(de) 
- inc de 
- ld h,a 
- and $38
- rrca
- rrca
- rrca 
- ld b,a 
+ nop
+ nop
+ nop
  ld a,l 
- and $07
- dec c 
- jr z,$+4
- jr $-72
+ and %00000111
+ dec b
+ jr z,$+4	; if zero, then 12 T states
+ jr $-72        ; otherwise 12+7 T states
 ENDM
 
 org $a000
@@ -135,7 +126,11 @@ filler:
  outloop $59A0
  outloop $59C0
  outloop $59E0
- ld c,$04
+ ld b,0
+ out ($fe),a
+ ld b,16
+ djnz $
+ xor a
  out ($fe),a
  ret
 
