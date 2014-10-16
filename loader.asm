@@ -8,13 +8,6 @@ ROM_CLS       EQU $0D6B
 ROM_CHAN_OPEN EQU $1601
 
 loader:
- ; store main registers
- push af
- push bc
- push de
- push hl
- push ix
-
  ; clear screen
  call ROM_CLS
 
@@ -48,40 +41,39 @@ ldr_kb_loop:
  and 15
  jr z,ldr_kb_loop
 
- ; disable interrupts
  di
+ ; store main registers
+ push af
+ push bc
+ push de
+ push hl
+ push ix
 
- ; store shadow registers
  exx
  ex af,af'
+
+ ; store shadow registers
  push af
  push bc
  push de
  push hl
  push iy
 
- ; call user provided init
  call init
 
- ; initialize im 2 jump table to $8000
+ ; enable interrupt table at $8000
  ld a,$80
  ld i,a
  im 2
-
- ; enable interrupts
  ei
 
- ; call user provided main loop
  call main
 
- ; disable interrupts
  di
-
- ; call user provided clear
- call clear
-
- ; enable default im 1 interrupts
+ ; return to im 1 mode
  im 1
+
+ call clear
 
  ; restore shadow registers
  pop iy
@@ -89,11 +81,9 @@ ldr_kb_loop:
  pop de
  pop bc
  pop af
+
  exx
  ex af,af'
-
- ; enable interrupts
- ei
 
  ; restore main registers
  pop ix
@@ -101,6 +91,7 @@ ldr_kb_loop:
  pop de
  pop bc
  pop af
+ ei
  ret
 
 ldr_string:
