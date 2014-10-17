@@ -67,7 +67,6 @@ clear:
 
 datasrc: dw $4000
 
-org $9000
 interrupt:
  di
  push af
@@ -86,7 +85,7 @@ interrupt:
  ld (rsp+1),sp
  ld hl,(datasrc)
  exx
- ld hl,$5040+16
+ ld hl,$5060+16         ; first line $5060
 scrl:
  exx
  ld sp,hl
@@ -114,6 +113,36 @@ scrl:
  ld de,16
  add hl,de
  exx
+ ld de,16
+ add hl,de
+ exx
+ ld sp,hl
+ pop af
+ pop bc
+ pop de
+ pop ix
+ ex af,af'
+ exx
+ pop af
+ pop bc
+ pop de
+ pop iy
+ ld sp,hl
+ push iy
+ push de
+ push bc
+ push af
+ ex af,af'
+ exx
+ push ix
+ push de
+ push bc
+ push af
+ ld de,16
+ add hl,de
+ exx
+ ld de,-16
+ add hl,de
  inc h
  ld a,h
  and $07
@@ -124,20 +153,48 @@ scrl:
  ld a,l
  add a,32
  ld l,a
- jr nc,scrl
+ cp $C0                 ; last line $50C0
+ jr c,scrl
 rsp:
  ld sp,0
- ld b,58
+ ld b,38
  djnz $
- nop
- nop
- nop
  nop
 
  ld de,fillerdata
  ld a,0
  call filler
  call PTxPlay+5
+
+ ld hl,fillerdata
+ ld de,fillerdata+1
+ ld bc,63
+ ld (hl),$00
+ ldir
+
+ ld hl,counter
+ inc (hl)
+
+ ld de,bardata1
+ ld a,(counter)
+ and $3f
+ cp $20
+ jr c,plot1
+ ld de,bardata2
+ add a,$10
+plot1:
+ call plotbar
+
+ ld de,bardata2
+ ld a,(counter)
+ and $3f
+ cp $20
+ jr c,plot2
+ ld de,bardata1
+ sub $10
+plot2:
+ add a,$10
+ call plotbar
 
  pop iy
  pop hl
@@ -154,15 +211,49 @@ rsp:
  ei
  ret
 
+plotbar:
+ and $3f
+ ld hl,sinetable
+ add a,l
+ ld l,a
+ ld a,0
+ adc a,h
+ ld h,a
+ ld a,(hl)
+ ex de,hl
+ ld de,fillerdata
+ add a,e
+ ld e,a
+ ld a,0
+ adc a,d
+ ld d,a
+ ld bc,16
+ ldir
+ ret
+
+counter:
+db 0
+
+sinetable:
+db $00, $00, $00, $01, $01, $02, $04, $05
+db $07, $08, $0A, $0C, $0E, $11, $13, $15
+db $17, $1A, $1C, $1E, $21, $23, $25, $27
+db $28, $2A, $2B, $2D, $2E, $2E, $2F, $2F
+db $30, $2F, $2F, $2E, $2E, $2D, $2B, $2A
+db $28, $27, $25, $23, $21, $1E, $1C, $1A
+db $18, $15, $13, $11, $0E, $0C, $0A, $08
+db $07, $05, $04, $02, $01, $01, $00, $00
+
+bardata1:
+db $08, $09, $19, $1b, $2b, $2d, $3d, $3f
+db $2f, $2d, $1d, $1b, $0b, $09, $01, $00
+
+bardata2:
+db $00, $03, $03, $1e, $1e, $37, $37, $3e
+db $36, $3f, $37, $36, $1e, $1b, $03, $00
+
 fillerdata:
-db $0b, $2e, $3e, $2b, $08, $08, $09, $19
-db $1b, $2b, $2d, $3d, $3f, $2f, $2d, $1d
-db $1b, $0b, $09, $01, $01, $25, $37, $3e
-db $2c, $08, $01, $13, $25, $37, $01, $02
-db $03, $04, $05, $06, $07, $06, $05, $04
-db $03, $02, $01, $07, $35, $23, $11, $00
-db $15, $37, $3e, $2a, $03, $03, $1e, $1e
-db $37, $37, $3f, $37, $36, $1e, $1b, $03
+ds 64
 
 ;; The first line where this routine is relevant is the line 64, but we need
 ;; to start during line 63, which starts 62*228-24 = 14112 T states after
@@ -244,16 +335,15 @@ ENDM
  out ($fe),a    ; change border back to black
 ENDM
 
-org $a000
 filler:
  genfiller $5800, 16
  ret
 
-song:
-incbin ROBOCOP.pt3
-
 org $c000
 PTxPlay:
 incbin PTxPlay
+
+song:
+incbin ROBOCOP.pt3
 
 end loader
