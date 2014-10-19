@@ -1,238 +1,228 @@
 include loader.asm
 
-init:
- xor a
- out ($fe),a
+init	xor a
+	out ($fe),a
 
- ld hl,$4000
- ld de,$4001
- ld bc,$00ff
- ld (hl),$00
- ldir
+	ld hl,$4000
+	ld de,$4001
+	ld bc,$00ff
+	ld (hl),$00
+	ldir
 
- ld hl,$4100
- ld de,$4101
- ld bc,$00ff
- ld (hl),$ff
- ldir
+	ld hl,$4100
+	ld de,$4101
+	ld bc,$00ff
+	ld (hl),$ff
+	ldir
 
- ld hl,$4000
- ld de,$4200
- ld bc,$0e00
- ldir
+	ld hl,$4000
+	ld de,$4200
+	ld bc,$0e00
+	ldir
 
- ld hl,$5000
- ld de,$5001
- ld bc,$07ff
- ld (hl),$00
- ldir
+	ld hl,$5000
+	ld de,$5001
+	ld bc,$07ff
+	ld (hl),$00
+	ldir
 
- ld hl,$5800
- ld de,$5801
- ld bc,$02ff
- ld (hl),$07
- ldir
+	ld hl,$5800
+	ld de,$5801
+	ld bc,$02ff
+	ld (hl),$07
+	ldir
 
- ld hl,song
- xor a
- ld (PTxPlay+10),a
- call PTxPlay+3
- ret
+	ld hl,song
+	xor a
+	ld (PTxPlay+10),a
+	call PTxPlay+3
+	ret
 
-main:
- ld bc,$7ffe
- in a,(c)
- and $01
- jr nz,main
- ret
+main	ld bc,$7ffe
+	in a,(c)
+	and $01
+	jr nz,main
+	ret
 
-clear:
- call PTxPlay+8
+clear	call PTxPlay+8
 
- ld a,7
- out ($fe),a
+	ld a,7
+	out ($fe),a
 
- ld hl,$4000
- ld de,$4001
- ld bc,$17FF
- ld (hl),0
- ldir
+	ld hl,$4000
+	ld de,$4001
+	ld bc,$17FF
+	ld (hl),0
+	ldir
 
- ld hl,$5800
- ld de,$5801
- ld bc,$2FF
- ld (hl),$38
- ldir
- ret
+	ld hl,$5800
+	ld de,$5801
+	ld bc,$2FF
+	ld (hl),$38
+	ldir
+	ret
 
-datasrc: dw $4000
+datasrc	dw $4000
 
-interrupt:
- di
- push af
- push bc
- push de
- push hl
- push ix
- exx
- ex af,af'
- push af
- push bc
- push de
- push hl
- push iy
+interrupt	di
+	push af
+	push bc
+	push de
+	push hl
+	push ix
+	exx
+	ex af,af'
+	push af
+	push bc
+	push de
+	push hl
+	push iy
 
- ld (rsp+1),sp
- ld hl,(datasrc)
- exx
- ld hl,$5060+16         ; first line $5060
-scrl:
- exx
- ld sp,hl
- pop af
- pop bc
- pop de
- pop ix
- ex af,af'
- exx
- pop af
- pop bc
- pop de
- pop iy
- ld sp,hl
- push iy
- push de
- push bc
- push af
- ex af,af'
- exx
- push ix
- push de
- push bc
- push af
- ld de,16
- add hl,de
- exx
- ld de,16
- add hl,de
- exx
- ld sp,hl
- pop af
- pop bc
- pop de
- pop ix
- ex af,af'
- exx
- pop af
- pop bc
- pop de
- pop iy
- ld sp,hl
- push iy
- push de
- push bc
- push af
- ex af,af'
- exx
- push ix
- push de
- push bc
- push af
- ld de,16
- add hl,de
- exx
- ld de,-16
- add hl,de
- inc h
- ld a,h
- and $07
- jr nz,scrl
- ld a,h
- sub 8
- ld h,a
- ld a,l
- add a,32
- ld l,a
- cp $C0                 ; last line $50C0
- jr c,scrl
-rsp:
- ld sp,0
- ld b,38
- djnz $
- nop
+	ld (rsp+1),sp
+	ld hl,(datasrc)
+	exx
+	ld hl,$5060+16         ; first line $5060
+scrl	exx
+	ld sp,hl
+	pop af
+	pop bc
+	pop de
+	pop ix
+	ex af,af'
+	exx
+	pop af
+	pop bc
+	pop de
+	pop iy
+	ld sp,hl
+	push iy
+	push de
+	push bc
+	push af
+	ex af,af'
+	exx
+	push ix
+	push de
+	push bc
+	push af
+	ld de,16
+	add hl,de
+	exx
+	ld de,16
+	add hl,de
+	exx
+	ld sp,hl
+	pop af
+	pop bc
+	pop de
+	pop ix
+	ex af,af'
+	exx
+	pop af
+	pop bc
+	pop de
+	pop iy
+	ld sp,hl
+	push iy
+	push de
+	push bc
+	push af
+	ex af,af'
+	exx
+	push ix
+	push de
+	push bc
+	push af
+	ld de,16
+	add hl,de
+	exx
+	ld de,-16
+	add hl,de
+	inc h
+	ld a,h
+	and $07
+	jr nz,scrl
+	ld a,h
+	sub 8
+	ld h,a
+	ld a,l
+	add a,32
+	ld l,a
+	cp $C0                 ; last line $50C0
+	jr c,scrl
+rsp	ld sp,0
+	ld b,38
+	djnz $
+	nop
 
- ld de,fillerdata
- ld a,0
- call filler
- call PTxPlay+5
+	ld de,fillerdata
+	ld a,0
+	call filler
+	call PTxPlay+5
 
- ld hl,fillerdata
- ld de,fillerdata+1
- ld bc,63
- ld (hl),$00
- ldir
+	ld hl,fillerdata
+	ld de,fillerdata+1
+	ld bc,63
+	ld (hl),$00
+	ldir
 
- ld hl,counter
- inc (hl)
+	ld hl,counter
+	inc (hl)
 
- ld de,bardata1
- ld a,(counter)
- and $3f
- cp $20
- jr c,plot1
- ld de,bardata2
- add a,$10
-plot1:
- call plotbar
+	ld de,bardata1
+	ld a,(counter)
+	and $3f
+	cp $20
+	jr c,plot1
+	ld de,bardata2
+	add a,$10
+plot1	call plotbar
 
- ld de,bardata2
- ld a,(counter)
- and $3f
- cp $20
- jr c,plot2
- ld de,bardata1
- sub $10
-plot2:
- add a,$10
- call plotbar
+	ld de,bardata2
+	ld a,(counter)
+	and $3f
+	cp $20
+	jr c,plot2
+	ld de,bardata1
+	sub $10
+plot2	add a,$10
+	call plotbar
 
- pop iy
- pop hl
- pop de
- pop bc
- pop af
- exx
- ex af,af'
- pop ix
- pop hl
- pop de
- pop bc
- pop af
- ei
- ret
+	pop iy
+	pop hl
+	pop de
+	pop bc
+	pop af
+	exx
+	ex af,af'
+	pop ix
+	pop hl
+	pop de
+	pop bc
+	pop af
+	ei
+	ret
 
-plotbar:
- and $3f
- ld hl,sinetable
- add a,l
- ld l,a
- ld a,0
- adc a,h
- ld h,a
- ld a,(hl)
- ex de,hl
- ld de,fillerdata
- add a,e
- ld e,a
- ld a,0
- adc a,d
- ld d,a
- ld bc,16
- ldir
- ret
+plotbar	and $3f
+	ld hl,sinetable
+	add a,l
+	ld l,a
+	ld a,0
+	adc a,h
+	ld h,a
+	ld a,(hl)
+	ex de,hl
+	ld de,fillerdata
+	add a,e
+	ld e,a
+	ld a,0
+	adc a,d
+	ld d,a
+	ld bc,16
+	ldir
+	ret
 
-counter:
-db 0
+counter	db 0
 
 sinetable:
 db $00, $00, $00, $01, $01, $02, $04, $05
@@ -280,70 +270,68 @@ ds 64
 ;; much nicer on all 128K platforms, this seems to be a glitch with a
 ;; different contended memory delay pattern that can be fixed by being early.
 
-genfiller MACRO address, rows
-LOCAL _idx
-idx DEFL 0
-REPT rows
- LOCAL fillloop
- ld b,4
-fillloop DEFL $
- out ($fe),a
- ld a,(de)
- ld h,a
- ld l,a
- and %00111000
- rrca
- rrca
- rrca
- inc de
- nop
- ld (address+idx*$20+$00),hl
- ld (address+idx*$20+$02),hl
- ld (address+idx*$20+$04),hl
- ld (address+idx*$20+$06),hl
- ld (address+idx*$20+$08),hl
- ld (address+idx*$20+$0A),hl
- ld (address+idx*$20+$0C),hl
- ld (address+idx*$20+$0E),hl
- out ($fe),a
- ld (address+idx*$20+$10),hl
- ld (address+idx*$20+$12),hl
- ld (address+idx*$20+$14),hl
- ld (address+idx*$20+$16),hl
- ld (address+idx*$20+$18),hl
- ld (address+idx*$20+$1A),hl
- ld (address+idx*$20+$1C),hl
- ld (address+idx*$20+$1E),hl
- nop
- nop
- nop
- nop
- ld a,l 
- and %00000111
- dec b
- jr z,$+4       ; if zero, then 12 T states
- jr fillloop    ; otherwise 12+7 T states
-idx DEFL idx + 1
-ENDM
- ld b,0
- out ($fe),a    ; last line, nothing to do
- ld b,16
- djnz $
- nop
- nop
- xor a
- out ($fe),a    ; change border back to black
-ENDM
+genfiller	macro address, rows
+	local _idx
+idx	defl 0
 
-filler:
- genfiller $5800, 16
- ret
+	rept rows
+	local fillloop
+	ld b,4
+fillloop	defl $
+	out ($fe),a
+	ld a,(de)
+	ld h,a
+	ld l,a
+	and %00111000
+	rrca
+	rrca
+	rrca
+	inc de
+	nop
+	ld (address+idx*$20+$00),hl
+	ld (address+idx*$20+$02),hl
+	ld (address+idx*$20+$04),hl
+	ld (address+idx*$20+$06),hl
+	ld (address+idx*$20+$08),hl
+	ld (address+idx*$20+$0A),hl
+	ld (address+idx*$20+$0C),hl
+	ld (address+idx*$20+$0E),hl
+	out ($fe),a
+	ld (address+idx*$20+$10),hl
+	ld (address+idx*$20+$12),hl
+	ld (address+idx*$20+$14),hl
+	ld (address+idx*$20+$16),hl
+	ld (address+idx*$20+$18),hl
+	ld (address+idx*$20+$1A),hl
+	ld (address+idx*$20+$1C),hl
+	ld (address+idx*$20+$1E),hl
+	nop
+	nop
+	nop
+	nop
+	ld a,l 
+	and %00000111
+	dec b
+	jr z,$+4       ; if zero, then 12 T states
+	jr fillloop    ; otherwise 12+7 T states
+idx 	defl idx+1
+	endm
 
-org $c000
-PTxPlay:
-incbin PTxPlay
+	ld b,0
+	out ($fe),a    ; last line, nothing to do
+	ld b,16
+	djnz $
+	nop
+	nop
+	xor a
+	out ($fe),a    ; change border back to black
+	endm
 
-song:
-incbin ROBOCOP.pt3
+filler	genfiller $5800, 16
+	ret
+
+	org $c000
+PTxPlay	incbin PTxPlay
+song	incbin ROBOCOP.pt3
 
 end loader
