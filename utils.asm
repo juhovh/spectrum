@@ -279,13 +279,14 @@ PS_Exit	pop bc
 ;; destroys:
 ;;   flags
 RandomByte	push hl
-	push de
 	ld hl,RNG_Table
 	ld a,(RandomSeed+1)
 	and $0f
-	ld d,0
-	ld e,a
-	add hl,de
+	add a,l
+	ld l,a
+	ld a,0
+	adc a,h
+	ld h,a
 	ld a,(RandomSeed)
 	or a
 	jr z,RNG_DoXOR
@@ -294,7 +295,6 @@ RandomByte	push hl
 	jr nc,RNG_NoXOR
 RNG_DoXOR	xor (hl)
 RNG_NoXOR	ld (RandomSeed),a
-	pop de
 	pop hl
 	ret
 
