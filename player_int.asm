@@ -20,6 +20,6 @@ interrupt	call PTxPlay+5
 
 org $c000
 PTxPlay	incbin PTxPlay
-	incbin Nokturn.pt3
+	incbin cycler.pt3
 
 end loader

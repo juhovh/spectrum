@@ -32,10 +32,7 @@ init	xor a
 	ld (hl),$07
 	ldir
 
-	ld hl,song
-	xor a
-	ld (PTxPlay+10),a
-	call PTxPlay+3
+	call PTxPlay
 	ret
 
 main	ld bc,$7ffe
@@ -332,6 +329,6 @@ filler	genfiller $5800, 16
 
 	org $c000
 PTxPlay	incbin PTxPlay
-song	incbin ROBOCOP.pt3
+	incbin cycler.pt3
 
 end loader
