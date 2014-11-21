@@ -271,6 +271,7 @@ PS_Exit	pop bc
 
 ;; RandomByte routine for getting a random number in the range [0,255]. The
 ;; produced random numbers loop every 256 times unless the seed is changed.
+;; See: http://codebase64.org/doku.php?id=base:small_fast_8-bit_prng
 ;; input:
 ;;   RandomSeed - a 12-bit seed for random
 ;; output:
