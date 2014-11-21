@@ -3,6 +3,10 @@ include loader.asm
 init	call PTxPlay
 	ret
 
+interrupt	call PTxPlay+5
+	ei
+	ret
+
 ; Loop until space is pressed
 main	halt
 	ld a,$7f
@@ -12,10 +16,6 @@ main	halt
 	ret
 
 clean	call PTxPlay+8
-	ret
-
-interrupt	call PTxPlay+5
-	ei
 	ret
 
 org $c000
