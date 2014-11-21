@@ -62,7 +62,7 @@ ldr_kb_loop	halt
 	di
 	im 1
 
-	call clear
+	call clean
 
 	pop iy
 	pop hl

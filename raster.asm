@@ -44,7 +44,7 @@ main	ld bc,$7ffe
 	jr nz,main
 	ret
 
-clear	call PTxPlay+8
+clean	call PTxPlay+8
 
 	ld a,7
 	out ($fe),a
