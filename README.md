@@ -4,6 +4,20 @@ ZX Spectrum Utilities
 Random utilities freely used in ZX Spectrum products, more information and
 documentation should be added here later.
 
+For build environment, read
+http://futurice.com/blog/build-environment-like-its-1986 blog post.
+
+To compile for example the music player, write:
+
+`pasmo --tapbas player.asm player.tap`
+
+If you want to convert it to wav so that you can record it to a tape, you can
+try:
+
+`appmake +zx --dumb --audio -b player.tap`
+
+The resulting player.wav should contain the application binary.
+
 License
 -------
 
