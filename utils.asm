@@ -106,6 +106,7 @@ NextRow	inc h
 	ret nz
 	ld a,l
 	add a,32
+	ld l,a
 	ret c
 	ld a,h
 	sub 8
