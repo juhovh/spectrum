@@ -102,6 +102,7 @@ FindRow	ld hl,(PixelAddress)
 ;; destroys:
 ;;   a, flags
 NextRow	inc h
+	ld a,h
 	and 7
 	ret nz
 	ld a,l
