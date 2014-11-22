@@ -185,6 +185,19 @@ SetPixel	call FindPixel
 	ld (hl),a
 	ret
 
+;; ClearPixel routine for clearing a pixel on screen.
+;; input:
+;;   PixelAddress - the used pixel start address
+;;   b - Y coordinate (0-191)
+;;   c - X coordinate (0-255)
+;; destroys:
+;;   hl, de, a, flags
+ClearPixel	call FindPixel
+	cpl
+	and (hl)
+	ld (hl),a
+	ret
+
 ;; FindColor routine for finding a color memory address.
 ;; input:
 ;;   ColorAddress - the used color start address
