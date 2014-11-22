@@ -1,7 +1,7 @@
 org $8000	
 include utils.asm
 
-ourcolour	equ PAPER_BLACK+INK_BLUE+COLOUR_BRIGHT
+ourcolour	equ PAPER_BLACK+INK_BLUE+BRIGHT
 
 main:
 	;; Clear everything on the screen
