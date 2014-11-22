@@ -2,24 +2,24 @@
 ;; to have green ink on red paper you can just use (INK_GREEN+PAPER_RED) as the
 ;; value and store it to the corresponding screen memory address. (which you can
 ;; get by calling FindColor routine later on)
-INK_BLACK	defl %00000000
-INK_BLUE	defl %00000001
-INK_RED	defl %00000010
-INK_MAGENTA	defl %00000011
-INK_GREEN	defl %00000100
-INK_CYAN	defl %00000101
-INK_YELLOW	defl %00000110
-INK_WHITE	defl %00000111
-PAPER_BLACK	defl %00000000
-PAPER_BLUE	defl %00001000
-PAPER_RED	defl %00010000
-PAPER_MAGENTA	defl %00011000
-PAPER_GREEN	defl %00100000
-PAPER_CYAN	defl %00101000
-PAPER_YELLOW	defl %00110000
-PAPER_WHITE	defl %00111000
-COLOUR_BRIGHT	defl %01000000
-COLOUR_FLASH	defl %10000000
+INK_BLACK	equ %00000000
+INK_BLUE	equ %00000001
+INK_RED	equ %00000010
+INK_MAGENTA	equ %00000011
+INK_GREEN	equ %00000100
+INK_CYAN	equ %00000101
+INK_YELLOW	equ %00000110
+INK_WHITE	equ %00000111
+PAPER_BLACK	equ %00000000
+PAPER_BLUE	equ %00001000
+PAPER_RED	equ %00010000
+PAPER_MAGENTA	equ %00011000
+PAPER_GREEN	equ %00100000
+PAPER_CYAN	equ %00101000
+PAPER_YELLOW	equ %00110000
+PAPER_WHITE	equ %00111000
+COLOUR_BRIGHT	equ %01000000
+COLOUR_FLASH	equ %10000000
 
 ;; This is a modifyable PixelAddress pointer, it must be a multiply of 256
 ;; for performance and contain 6144 bytes of free memory. The default value is
