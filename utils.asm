@@ -265,6 +265,26 @@ PB_Loop	ld a,(de)
 	pop bc
 	ret
 
+;; FindChar routine for finding a character block.
+;; input:
+;;   CharAddress - the used charset font
+;;   a - character code
+;; output:
+;;   hl - pointer to character block
+;; destroys:
+;;   a, flags
+FindChar	push de
+	ld hl,(CharAddress)
+	ld d,0
+	rept 3
+	rla
+	rl d
+	endm
+	ld e,a
+	add hl,de
+	pop de
+	ret
+
 ;; PutChar routine for plotting a character on screen.
 ;; input:
 ;;   PixelAddress - the used pixel start address
@@ -273,18 +293,9 @@ PB_Loop	ld a,(de)
 ;;   c - X coordinate (0-31)
 ;;   a - character code
 ;; destroys:
-;;   de, a, flags
+;;   a, flags
 PutChar	push hl
-	ld hl,(CharAddress)
-	ld d,0
-	rla
-	rl d
-	rla
-	rl d
-	rla
-	rl d
-	ld e,a
-	add hl,de
+	call FindChar
 	call PutBlock
 	pop hl
 	ret
@@ -383,21 +394,6 @@ DS_Idx	defl DS_Idx+1
 	pop bc
 	ret
 
-;; PutByte for putting a byte in (de) on screen with a pixel location.
-;; input:
-;;   b - Y coordinate (0-191)
-;;   c - X coordinate (0-255)
-;;   de - pointer to the outputted byte
-;; destroys:
-;;   a, flags
-PutByte	push bc
-	push de
-	call FindPixel
-	pop de
-	call CopyByte
-	pop bc
-	ret
-
 ;; CopyByte routine for copying a byte to a memory address with a bit offset.
 ;; For example to copy byte %11100111 in (de) to address (hl) with offset
 ;; %00010000 would result (hl),(hl+1) containing %00011100,%11100000. If the
@@ -407,10 +403,14 @@ PutByte	push bc
 ;; input:
 ;;   hl - output start address
 ;;   de - input byte address
+;;   a - mask of start bit
+;;   c - >248 if not overflowing to second byte
 ;; destroys:
 ;;   bc, a, flags
-CopyByte	ld c,a	; Start mask in c
+CopyByte	ld b,c	; Overflow flag in c
+	ld c,a	; Start mask in c
 	ld a,(de)	; Output byte in a
+	ld d,b	; Overflow flag in d
 	ld b,0xff	; Bitmask in b
 CB_Rotate	rl c
 	jr c,CB_EndRotate
@@ -421,6 +421,9 @@ CB_EndRotate	ld c,a	; Rotated byte in c
 	and b
 	xor (hl)
 	ld (hl),a
+	ld a,d	; Overflow flag in a
+	cp 249	; Check if >248
+	ret nc
 	inc hl
 	ld a,b
 	cpl	; Complement of bitmask in a
@@ -430,3 +433,58 @@ CB_EndRotate	ld c,a	; Rotated byte in c
 	dec hl
 	ret
 
+;; PutByte for putting a byte in (hl) on screen with a pixel location.
+;; input:
+;;   b - Y coordinate (0-191)
+;;   c - X coordinate (0-255)
+;;   hl - pointer to the outputted byte
+;; destroys:
+;;   de, a, flags
+PutByte	push bc
+	push hl
+	push hl
+	call FindPixel
+	pop de
+	call CopyByte
+	pop hl
+	pop bc
+	ret
+
+;; PutSprite for putting a 8x8 block in any pixel location.
+;; input:
+;;   b - Y coordinate (0-191)
+;;   c - X coordinate (0-255)
+;;   hl - pointer to the sprite data
+;; destroys:
+;;   a, flags
+PutSprite	ld d,8
+	push bc
+	push hl
+	push de
+PS_Loop2	call PutByte
+	inc hl
+	inc b
+	ld a,b	; Check if Y coordinate >191
+	cp 192
+	jr nc,PS_Out
+	pop de
+	dec d
+	push de
+	jr nz,PS_Loop2
+PS_Out	pop de
+	pop hl
+	pop bc
+	ret
+
+;; PutChar routine for plotting a character on screen.
+;; input:
+;;   PixelAddress - the used pixel start address
+;;   CharAddress - the used charset font
+;;   b - Y coordinate (0-191)
+;;   c - X coordinate (0-255)
+;;   a - character code
+;; destroys:
+;;   a, flags
+PutChar2	call FindChar
+	call PutSprite
+	ret

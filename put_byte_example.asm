@@ -3,7 +3,7 @@
 byte	db $ff
 main	ld b,190
 	ld c,190
-	ld de,byte
+	ld hl,byte
 loop	call PutByte
 	dec c
 	dec b
