@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <graphics.h>
-#include <zxlowgfx.h>
 
 // compile with
 // zcc +zx -lndos -lm -create-app -o ftrc ftrc.c
@@ -9,6 +7,7 @@
 main()
 {
 	int i, x, y, dx, dy, r, dr;
+	clg();
 
 	// laz0rs
 	for (i = 0; i < 250; i++) {
