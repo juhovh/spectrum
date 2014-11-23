@@ -23,6 +23,8 @@ start:
     ret
 
 ;; Scroll one screenful upwards filling with $FF pixels
+;; input:
+;;   PixelAddress - Base address for the screen
 ScrollScreenUp:
     ld a, $FF
     call FillScrollBuffer
@@ -41,7 +43,8 @@ SSU_Loop
 
 ;; Scroll credits text
 ;; input:
-;;  credits_string - String lines to scroll
+;;   credits_string - String lines to scroll
+;;   PixelAddress - Base address for the screen
 ScrollCredits:
     ;; Number of rows to scroll
     ;; Must be divisable by 8
@@ -65,7 +68,7 @@ SC_Loop
 ;;   a,de,hl,flags
 ScrollOneRowUp:
     push bc
-    ld hl, $4000
+    ld hl, (PixelAddress)
     ld b, 191
 Copy_loop
     call CopyRow
@@ -91,7 +94,14 @@ FillLastRow:
     ld d, 0
     ld e, a
     add hl, de
-    ld de, $57E0
+    ld b, h
+    ld c, l
+    ld hl, (PixelAddress)
+    ld de, $17E0
+    add hl, de
+    ex de, hl
+    ld h, b
+    ld l, c
     ld bc, 32
     ldir
     pop bc
