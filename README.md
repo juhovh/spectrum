@@ -18,6 +18,33 @@ try:
 
 The resulting player.wav should contain the application binary.
 
+Linking C code to ASM code
+--------------------------
+
+If you have a working C program in `hello.c` and want to include it in your
+assembly code, you could do the following.
+
+`zcc +zx -lndos -lm -zorg=40960 -o hello.bin hello.c`
+
+Then create a `hello.asm` file with following contents:
+
+```
+org $8000
+main
+  call hello_c
+  ret
+
+org 40960
+hello_c incbin hello.bin
+
+end main
+```
+
+Compile `hello.asm` with `pasmo --tapbas hello.asm hello.tap` and you have a
+nice working file. You probably want to use some other free memory address
+instead of 40960 ($a000) and call the C routine from your ASM code, but this
+should get you started.
+
 License
 -------
 
