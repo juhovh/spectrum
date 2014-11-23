@@ -29,7 +29,9 @@ ScrollRowLoop
     ld a, b
     and 7
     neg
-    add a, 7
+    add a, 8
+    and 7
+    
     call FillLastRow
     djnz ScrollRowLoop
     ret
@@ -70,7 +72,6 @@ DrawTestPattern:
 ;;   a,de,hl,flags
 FillLastRow:
     push bc
-    ld a, b
     and 7
     sla a
     sla a
