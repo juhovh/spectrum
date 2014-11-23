@@ -1,2 +1,2 @@
-org 0
+org $4000
 incbin screen.scr
