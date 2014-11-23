@@ -8,27 +8,30 @@ buffer_fill_count    db 0
 
 start:
     call DrawTestPattern
+    call ScrollScreenUp
 
-    ld b, 192   ; must be divisable by 8
+    di
+    halt
+    ret
+
+
+ScrollScreenUp:
+    ;; Number of rows to scroll
+    ;; Must be divisable by 8
+    ld b, 192
 ScrollRowLoop
-    ld a, b
-    and 7
-    call z, ReloadScrollBuffer
+    ;; ld a, b
+    ;; and 7
+    ;; call z, ReloadScrollBuffer
 
     halt
-    
     call ScrollOneRowUp
-
     ld a, b
     and 7
     neg
     add a, 7
     call FillLastRow
-    
     djnz ScrollRowLoop
-
-    di
-    halt
     ret
 
 ;; destroys:
