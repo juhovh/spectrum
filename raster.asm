@@ -1,5 +1,8 @@
 include loader.asm
 
+start	Load main,interrupt,init,clean
+	ret
+
 init	xor a
 	out ($fe),a
 
@@ -148,8 +151,9 @@ scrl	exx
 	cp $C0                 ; last line $50C0
 	jr c,scrl
 rsp	ld sp,0
-	ld b,38
+	ld b,37
 	djnz $
+	nop
 	nop
 
 	ld de,fillerdata
@@ -331,4 +335,4 @@ filler	genfiller $5800, 16
 PTxPlay	incbin PTxPlay
 	incbin cycler.pt3
 
-end loader
+end start

@@ -1,40 +1,30 @@
-
-; pointers to system ROM routines
-ROM_CLS	equ $0d6b
-ROM_CHAN_OPEN	equ $1601
-
-; interrupt jump table to $8181
 	org $8000
 	rept 257
 	db $81
 	endm
 
-; main loader routine
-loader	call ROM_CLS
-	ld a,2
-	call ROM_CHAN_OPEN
+LoadDefault	ret
 
-	ld b,11
-ldr_nl_loop	ld a,13
-	rst 16
-	djnz ldr_nl_loop
+SetCallback	macro label,addr
+	push hl
+	if not nul addr
+	ld hl,addr
+	else
+	ld hl,LoadDefault
+	endif
+	ld (label+1),hl
+	pop hl
+	endm
 
-	ld hl,ldr_str
-ldr_str_loop	ld a,(hl)
-	cp 0
-	jr z,ldr_kb_loop
-	rst 16
-	inc hl
-	jr ldr_str_loop
+Load	macro main,int,init,clean
+	SetCallback LoadMain,main
+	SetCallback LoadInt,int
+	SetCallback LoadInit,init
+	SetCallback LoadClean,clean
+	call Loader
+	endm
 
-ldr_kb_loop	halt
-	xor a
-	in a,($fe)
-	cpl
-	and 15
-	jr z,ldr_kb_loop
-
-	di
+Loader	di
 	push af
 	push bc
 	push de
@@ -50,19 +40,19 @@ ldr_kb_loop	halt
 	push hl
 	push iy
 
-	call init
+LoadInit	call LoadDefault
 
 	ld a,$80
 	ld i,a
 	im 2
 	ei
 
-	call main
+LoadMain	call LoadDefault
 
 	di
 	im 1
 
-	call clean
+LoadClean	call LoadDefault
 
 	pop iy
 	pop hl
@@ -81,8 +71,8 @@ ldr_kb_loop	halt
 	ei
 	ret
 
-ldr_str	db '     PRESS ANY KEY TO START     ',0
-
-; our custom interrupt handler
 	org $8181
-	jp interrupt
+	di
+LoadInt	call LoadDefault
+	ei
+	reti

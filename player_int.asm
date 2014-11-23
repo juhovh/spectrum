@@ -1,10 +1,12 @@
 include loader.asm
 
-init	call PTxPlay
-	ret
+PTxInit	equ PTxPlayer
+PTxPlay	equ PTxPlayer+5
+PTxClean	equ PTxPlayer+8
 
-interrupt	call PTxPlay+5
-	ei
+start	call PTxInit
+	Load main,PTxPlay
+	call PTxClean
 	ret
 
 ; Loop until space is pressed
@@ -15,11 +17,8 @@ main	halt
 	jr c,main
 	ret
 
-clean	call PTxPlay+8
-	ret
-
 org $c000
-PTxPlay	incbin PTxPlay
+PTxPlayer	incbin PTxPlay
 	incbin cycler.pt3
 
-end loader
+end start
