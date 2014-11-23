@@ -3,6 +3,8 @@
 #include <graphics.h>
 #include <zxlowgfx.h>
 
+//
+
 main()
 {
 	int i, x, y, dx, dy, r, dr;
@@ -89,7 +91,7 @@ int awsm() {
 	clga(65, 40, 20, 90);
 	clga(90, 80, 10, 50);
 	clga(105, 40, 20, 90);
-	clga(55, 110, 70, 20);
+	clga(65, 110, 60, 20);
 	// S
 	clga(130, 40, 50, 20);
 	clga(130, 40, 20, 50);
