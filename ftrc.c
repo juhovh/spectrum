@@ -3,7 +3,8 @@
 #include <graphics.h>
 #include <zxlowgfx.h>
 
-//
+// compile with
+// zcc +zx -lndos -lm -create-app -o ftrc ftrc.c
 
 main()
 {
@@ -75,9 +76,9 @@ int ftrc() {
 	clga(150, 80, 30, 20);
 	clga(170, 100, 20, 60);
 	// C
-	clga(200, 40, 50, 20);
-	clga(200, 60, 20, 80);
-	clga(200, 120, 50, 20);
+	clga(195, 40, 50, 20);
+	clga(195, 60, 20, 80);
+	clga(195, 120, 50, 20);
 	return 0;
 }
 
