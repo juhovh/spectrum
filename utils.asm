@@ -382,3 +382,51 @@ DS_Idx	defl DS_Idx+1
 	pop de
 	pop bc
 	ret
+
+;; PutByte for putting a byte in (de) on screen with a pixel location.
+;; input:
+;;   b - Y coordinate (0-191)
+;;   c - X coordinate (0-255)
+;;   de - pointer to the outputted byte
+;; destroys:
+;;   a, flags
+PutByte	push bc
+	push de
+	call FindPixel
+	pop de
+	call CopyByte
+	pop bc
+	ret
+
+;; CopyByte routine for copying a byte to a memory address with a bit offset.
+;; For example to copy byte %11100111 in (de) to address (hl) with offset
+;; %00010000 would result (hl),(hl+1) containing %00011100,%11100000. If the
+;; offset was for example %00000101 the result would be different, namely
+;; %00000111,%00111000. For plotting XOR is always used, so if there is already
+;; some content it will be modified accordingly.
+;; input:
+;;   hl - output start address
+;;   de - input byte address
+;; destroys:
+;;   bc, a, flags
+CopyByte	ld c,a	; Start mask in c
+	ld a,(de)	; Output byte in a
+	ld b,0xff	; Bitmask in b
+CB_Rotate	rl c
+	jr c,CB_EndRotate
+	srl b
+	rrca
+	jr CB_Rotate
+CB_EndRotate	ld c,a	; Rotated byte in c
+	and b
+	xor (hl)
+	ld (hl),a
+	inc hl
+	ld a,b
+	cpl	; Complement of bitmask in a
+	and c
+	xor (hl)
+	ld (hl),a
+	dec hl
+	ret
+
