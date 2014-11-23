@@ -71,8 +71,15 @@ LoadClean	call LoadDefault
 	ei
 	ret
 
+	org $817e ; 33150
+	jp main
+
 	org $8181
 	di
+	exx
+	ex af,af'
 LoadInt	call LoadDefault
+	ex af,af'
+	exx
 	ei
 	reti

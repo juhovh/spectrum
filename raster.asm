@@ -153,8 +153,6 @@ scrl	exx
 rsp	ld sp,0
 	ld b,37
 	djnz $
-	nop
-	nop
 
 	ld de,fillerdata
 	ld a,0
