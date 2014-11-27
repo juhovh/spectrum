@@ -51,10 +51,13 @@ License
 All included PT3 modules are licensed under Creative Commons Attribution 2.0
 Generic license. Copyright as follows:
 
+```
 cycler.pt3 - Copyright (c) 2014 Arto Chydenius
 bussipysakilla-slow.pt3 - Copyright (c) 2014 Arto Chydenius
+                          (original melody by Janos Valmunen)
 gravity_bling.pt3 - Copyright (c) 2014 Markus Koskinen
                     (uses some instruments by Arto Chydenius)
+```
 
 Copyright and license of all code included is either mentioned in the respective
 source code files or unless otherwise specified as follows:
