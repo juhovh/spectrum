@@ -121,7 +121,7 @@ draw_loop:
     djnz $-1
 
     pop bc
-    call draw_loop
+    jr draw_loop
 
 ;; Our very own functions to set values to X and Y when we meet borders
 
@@ -179,25 +179,25 @@ SetValueYToMax  ld a, 255
     ld (direction_y), a
     ld a, INK_MAGENTA
     out ($fe),a
-    call IncreaseCounter
+    jp IncreaseCounter
 
 SetValueYToZero ld a, 1
     ld (direction_y), a
     ld a, INK_BLUE
     out ($fe),a
-    call IncreaseCounter
+    jp IncreaseCounter
 
 SetValueXToMax  ld a, 255
     ld (direction_x), a
     ld a, INK_CYAN
     out ($fe),a
-    call IncreaseCounter
+    jp IncreaseCounter
 
 SetValueXToZero ld a, 1
     ld (direction_x), a
     ld a, INK_YELLOW
     out ($fe),a
-    call IncreaseCounter
+    jp IncreaseCounter
 
 Draw5Pixels call SetPixel
     push bc
@@ -361,7 +361,6 @@ IncreaseCounter ld a, (loop_counter)
     inc h
     ld a, h
     ld (loop_counter), a
-    call draw_loop
+    jp draw_loop
 
-ret
 end main
