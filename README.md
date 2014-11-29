@@ -57,6 +57,7 @@ bussipysakilla-slow.pt3 - Copyright (c) 2014 Arto Chydenius
                           (original melody by Janos Valmunen)
 gravity_bling.pt3 - Copyright (c) 2014 Markus Koskinen
                     (uses some instruments by Arto Chydenius)
+kankankan.pt3 - Copyright (c) 2014 Markus Koskinen and Jetro Suni
 ```
 
 Copyright and license of all code included is either mentioned in the respective
