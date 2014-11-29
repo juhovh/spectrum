@@ -18,12 +18,9 @@
 ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ;; THE SOFTWARE.
 
-org $8000
-include utils.asm
-
 ;; Variables
-default_colour              defl PAPER_BLACK+INK_GREEN+BRIGHT
-end_colour                  defl PAPER_BLACK+INK_GREEN+BRIGHT+FLASH
+default_colour              equ PAPER_BLACK+INK_GREEN+BRIGHT
+end_colour                  equ PAPER_BLACK+INK_GREEN+BRIGHT+FLASH
 loop_counter                db 0
 direction_y                 db 1
 direction_x                 db 1
@@ -31,7 +28,7 @@ direction_x                 db 1
 string:
 db 'Awesome!',0
 
-main:
+bouncingball:
     ;; Clear screen before doing anything else
     call ClearScreen
 
@@ -135,7 +132,7 @@ FinishLoop ld a, INK_BLACK
 
     ld hl,$5800
     ld bc,768
-    call EndLoop
+    jp EndLoop
 
 
 DrawHome ld a,%11111100
@@ -172,8 +169,7 @@ EndLoop ld (hl),end_colour
     ;; Continue loop if not 0
     jr nz, EndLoop
 
-    di
-    halt
+    ret
 
 SetValueYToMax  ld a, 255
     ld (direction_y), a
@@ -363,4 +359,3 @@ IncreaseCounter ld a, (loop_counter)
     ld (loop_counter), a
     jp draw_loop
 
-end main
