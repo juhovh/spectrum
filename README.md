@@ -24,18 +24,21 @@ Linking C code to ASM code
 If you have a working C program in `hello.c` and want to include it in your
 assembly code, you could do the following.
 
-`zcc +zx -lndos -lm -zorg=40960 -o hello.bin hello.c`
+```
+zcc +zx -lndos -lm -zorg=40960 -o hello.tmp hello.c
+python z88dkpatcher.py hello.tmp hello.bin
+```
 
 Then create a `hello.asm` file with following contents:
 
 ```
 org $8000
 main
-  call hello_c
+  call hello
   ret
 
 org 40960
-hello_c incbin hello.bin
+hello incbin hello.bin
 
 end main
 ```

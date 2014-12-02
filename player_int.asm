@@ -8,7 +8,7 @@ PTxClean	equ PTxPlayer+8
 start	xor a
 	ld hl,song1
 	call PTxInit
-	Load main,PTxPlay
+	Load main,intr
 	call PTxClean
 	ld b,25
 	halt
@@ -16,7 +16,7 @@ start	xor a
 	xor a
 	ld hl,song2
 	call PTxInit
-	Load main,PTxPlay
+	Load main,intr
 	call PTxClean
 	ret
 
@@ -26,6 +26,19 @@ main	halt
 	in a,($fe)
 	rra
 	jr c,main
+	ret
+
+intr	push af
+	push bc
+	push de
+	push hl
+	push ix
+	call PTxPlay
+	pop ix
+	pop hl
+	pop de
+	pop bc
+	pop af
 	ret
 
 org $c000
