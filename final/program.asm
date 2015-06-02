@@ -101,7 +101,7 @@ song4	incbin ../kankankan.pt3
 org $c000
 PTxPlayer	incbin ../PTxPlay
 
-org 53248 
-ftrc_c	incbin ../ftrc.bin
+org 53248
+ftrc_c	incbin ftrc.bin
 
 end
