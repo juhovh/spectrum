@@ -48,7 +48,27 @@ intr    push af
         push de
         push hl
         push ix
+        
+        exx
+        ex af,af'
+
+        push af
+        push bc
+        push de
+        push hl
+        push iy
+
         call PTxPlay
+
+        pop iy
+        pop hl
+        pop de
+        pop bc
+        pop af
+
+        ex af,af'
+        exx
+
         pop ix
         pop hl
         pop de
