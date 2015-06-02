@@ -20,8 +20,12 @@
 
 ; drawing the growing flower, pixel by pixel
 
-ld b,50
+ld b,250
 halt
+djnz $-1
+
+ld b,130
+halt 
 djnz $-1
 
 ld b,1
@@ -312,7 +316,7 @@ Draw93:
   cp 141
   jr nz,Draw93
 
-ld b,4
+ld b,3
 halt
 djnz $-1
 
@@ -325,7 +329,7 @@ Draw92:
   cp 141
   jr nz,Draw92
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -339,7 +343,7 @@ Draw91:
   cp 134
   jr nz,Draw91
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -353,7 +357,7 @@ Draw90:
   cp 130
   jr nz,Draw90
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -367,7 +371,7 @@ Draw89:
   cp 127
   jr nz,Draw89
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -381,7 +385,7 @@ Draw88:
   cp 127
   jr nz,Draw88
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -395,7 +399,7 @@ Draw87:
   cp 126
   jr nz,Draw87
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -418,7 +422,7 @@ Draw86b:
   cp 126
   jr nz,Draw86b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -441,7 +445,7 @@ Draw85b:
   cp 126
   jr nz,Draw85b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -464,7 +468,7 @@ Draw84b:
   cp 125
   jr nz,Draw84b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -487,7 +491,7 @@ Draw83b:
   cp 125
   jr nz,Draw83b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -510,7 +514,7 @@ Draw82b:
   cp 125
   jr nz,Draw82b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -533,7 +537,7 @@ Draw81b:
   cp 124
   jr nz,Draw81b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -556,7 +560,7 @@ Draw80b:
   cp 124
   jr nz,Draw80b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -579,7 +583,7 @@ Draw79b:
   cp 124
   jr nz,Draw79b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -602,7 +606,7 @@ Draw78b:
   cp 124
   jr nz,Draw78b
 
-ld b,5
+ld b,3
 halt
 djnz $-1
 
@@ -625,7 +629,7 @@ Draw77b:
   cp 124
   jr nz,Draw77b
 
-ld b,6
+ld b,4
 halt
 djnz $-1
 
@@ -648,7 +652,7 @@ Draw76b:
   cp 125
   jr nz,Draw76b
 
-ld b,7
+ld b,5
 halt
 djnz $-1
 
@@ -671,7 +675,7 @@ Draw75b:
   cp 125
   jr nz,Draw75b
 
-ld b,8
+ld b,5
 halt
 djnz $-1
 
@@ -694,7 +698,7 @@ Draw74b:
   cp 126
   jr nz,Draw74b
 
-ld b,9
+ld b,6
 halt
 djnz $-1
 
@@ -1053,7 +1057,7 @@ Draw63:
   cp 137
   jr nz,Draw63
 
-ld b,6
+ld b,4
 halt
 djnz $-1
 
@@ -1067,7 +1071,7 @@ Draw62:
   cp 135
   jr nz,Draw62
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1081,7 +1085,7 @@ Draw61:
   cp 133
   jr nz,Draw61
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1095,7 +1099,7 @@ Draw60:
   cp 132
   jr nz,Draw60
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1109,7 +1113,7 @@ Draw59:
   cp 132
   jr nz,Draw59
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1123,7 +1127,7 @@ Draw58:
   cp 132
   jr nz,Draw58
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1137,7 +1141,7 @@ Draw57:
   cp 132
   jr nz,Draw57
 
-ld b,9
+ld b,6
 halt
 djnz $-1
 
@@ -1151,7 +1155,7 @@ Draw56:
   cp 132
   jr nz,Draw56
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1165,7 +1169,7 @@ Draw55:
   cp 132
   jr nz,Draw55
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1179,7 +1183,7 @@ Draw54:
   cp 132
   jr nz,Draw54
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1193,7 +1197,7 @@ Draw53:
   cp 132
   jr nz,Draw53
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1226,7 +1230,7 @@ call ClearPixel
 ld c,132
 call ClearPixel
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1251,7 +1255,7 @@ call ClearPixel
 ld c,132
 call ClearPixel
 
-ld b,9
+ld b,4
 halt
 djnz $-1
 
@@ -1268,188 +1272,190 @@ call ClearPixel
 ld c,132
 call ClearPixel
 
-ld b,25
+ld b,26
 halt
 djnz $-1
 
-; flower colour red
 
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00011100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00011100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00011100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00011100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00011100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00011100
+ld c,52
 
-ld b,25
-halt
-djnz $-1
+Sparkle:
+  push bc
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00011100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00011100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00011100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00011100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00011100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00011100
 
-; flower colour red
+  ld b,3
+  halt
+  djnz $-1
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00001100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00001100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00001100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00001100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00001100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00001100
+  
+  ld b,3
+  halt
+  djnz $-1
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00101100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00101100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00101100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00101100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00101100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00101100
+  
+  ld b,3
+  halt
+  djnz $-1
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00110100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00110100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00110100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00110100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00110100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00110100
+  
+  ld b,3
+  halt
+  djnz $-1
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00010100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00010100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00010100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00010100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00010100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00010100
+  
+  ld b,3
+  halt
+  djnz $-1
+  
+  ld b,6
+  ld c,16
+  call FindColor
+  ld (hl),%00000100
+  ld b,6
+  ld c,17
+  call FindColor
+  ld (hl),%00000100
+  ld b,6
+  ld c,18
+  call FindColor
+  ld (hl),%00000100
+  ld b,7
+  ld c,16
+  call FindColor
+  ld (hl),%00000100
+  ld b,7
+  ld c,17
+  call FindColor
+  ld (hl),%00000100
+  ld b,7
+  ld c,18
+  call FindColor
+  ld (hl),%00000100
 
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00001100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00001100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00001100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00001100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00001100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00001100
-
-ld b,25
-halt
-djnz $-1
-
-; flower colour red
-
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00101100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00101100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00101100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00101100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00101100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00101100
-
-ld b,25
-halt
-djnz $-1
-
-; flower colour red
-
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00110100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00110100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00110100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00110100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00110100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00110100
-
-ld b,25
-halt
-djnz $-1
-
-; flower colour red
-
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00010100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00010100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00010100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00010100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00010100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00010100
-
-ld b,150
-halt
-djnz $-1
-
-; flower colour away
-
-ld b,6
-ld c,16
-call FindColor
-ld (hl),%00000100
-ld b,6
-ld c,17
-call FindColor
-ld (hl),%00000100
-ld b,6
-ld c,18
-call FindColor
-ld (hl),%00000100
-ld b,7
-ld c,16
-call FindColor
-ld (hl),%00000100
-ld b,7
-ld c,17
-call FindColor
-ld (hl),%00000100
-ld b,7
-ld c,18
-call FindColor
-ld (hl),%00000100
+  ld b,3
+  halt
+  djnz $-1
+  
+  pop bc
+  dec c
+jp nz,Sparkle
