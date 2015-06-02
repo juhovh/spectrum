@@ -18,10 +18,6 @@
 ;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ;; THE SOFTWARE.
 
-    org $8000
-
-INCLUDE utils.asm
-
 scroll_buffer ds 256, $00
 
 credits_string
@@ -35,18 +31,12 @@ credits_string
 
 buffer_fill_count    db 0
 
-start:
-    ;; call ScrollScreenUp
-    call ScrollCredits
-    di
-    halt
-    ret
-
 ;; Scroll one screenful upwards filling with $FF pixels
 ;; input:
 ;;   PixelAddress - Base address for the screen
+
 ScrollScreenUp:
-    ld a, $FF
+    ld a, $00
     call FillScrollBuffer
     ld b, 192
 SSU_Loop
@@ -263,5 +253,3 @@ CopyRow:
     pop hl
     pop bc
     ret 
-
-end start

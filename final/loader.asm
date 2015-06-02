@@ -76,10 +76,6 @@ LoadClean	call LoadDefault
 
 	org $8181
 	di
-	exx
-	ex af,af'
 LoadInt	call LoadDefault
-	ex af,af'
-	exx
 	ei
 	reti
