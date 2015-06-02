@@ -32,7 +32,7 @@ main()
 	clg();
 
 	// laz0rs
-	for (i = 0; i < 250; i++) {
+	for (i = 0; i < 80; i++) {
 		x = rand() % getmaxx();
 		y = rand() % getmaxy();
 		dx = rand() % getmaxx();
@@ -44,7 +44,7 @@ main()
 	clg();
 
 	// sc4nn3rz
-	for(i = 0; i < 100; i ++) {
+	for(i = 0; i < 80; i ++) {
 		x = rand() % getmaxx();
 		y = rand() % getmaxy();
 		draw(x, 0, x, getmaxy());
@@ -54,7 +54,7 @@ main()
 	clg();
 
 	// chA0z
-	for (i = 0; i < 250; i++) {
+	for (i = 0; i < 100; i++) {
 		x = rand() % getmaxx();
 		y = rand() % getmaxy();
 		dx = rand() % getmaxx();
@@ -66,7 +66,7 @@ main()
 	}
 
 	// dissolve
-	for (i = 0; i < 150; i++) {
+	for (i = 0; i < 80; i++) {
 		x = rand() % getmaxx();
 		y = rand() % getmaxy();
 		dx = rand() % getmaxx();

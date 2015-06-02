@@ -13,8 +13,6 @@ main	xor a
         ; gravity bling
 	ld hl,song3
         call PTxInit
-        Load intr
-        call PTxClean
 
         ; logo + flower
 	Load growing,intr
@@ -33,14 +31,34 @@ main	xor a
         Load bball,intr
 
         xor a 
+        ld hl,song2
+        call PTxInit
+        Load waitforbussi,intr
+
+        call ClearScreen
+
+        xor a 
         ld hl,song1
         call PTxInit
-        Load intr
-        call PTxClean
+
+        ld hl,$5800
+        ld de,$5801
+        ld (hl),$04
+        ld bc,$2FF
+        ldir
 
         ; FTRC
         Load ftrc_c,intr
 
+        call ClearScreen
+        xor a 
+        ld hl,song4
+        call PTxInit
+
+        Load ScrollCredits,intr
+
+        call PTxClean
+        jr $
 	ret
 
 intr    push af
@@ -74,6 +92,16 @@ intr    push af
         pop de
         pop bc
         pop af
+        ret
+
+waitforbussi nop
+        ld de,1500
+busloop halt
+        dec de
+        ld a,d
+        or e
+        cp 0
+        jr nz,busloop
         ret
 
 growing	nop
