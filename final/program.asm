@@ -6,9 +6,26 @@ PTxInit equ PTxPlayer+3
 PTxPlay equ PTxPlayer+5
 PTxClean        equ PTxPlayer+8
 
+SaveScreen:
+	ld de,$e000
+	ld hl,$4000
+	ld bc,6912
+	ldir
+	ret
+
+RestoreScreen:
+	ld de,$4000
+	ld hl,$e000
+	ld bc,6912
+	ldir
+	ret
+
 main	xor a
 	out ($fe),a
 	xor a
+
+	; Save our loading screen to $e000
+	call SaveScreen
 
         ; gravity bling
 	ld hl,song3
@@ -31,9 +48,9 @@ main	xor a
         Load bball,intr
 
         xor a 
-        ld hl,song2
+        ld hl,song4
         call PTxInit
-        Load waitforbussi,intr
+        Load waitfortanka,intr
 
         call ClearScreen
 
@@ -52,14 +69,15 @@ main	xor a
 
         call ClearScreen
         xor a 
-        ld hl,song4
+        ld hl,song2
         call PTxInit
 
         Load ScrollCredits,intr
 
         call PTxClean
-        jr $
-	ret
+
+	call RestoreScreen
+	jp main
 
 intr    push af
         push bc
@@ -94,14 +112,14 @@ intr    push af
         pop af
         ret
 
-waitforbussi nop
-        ld de,1500
-busloop halt
+waitfortanka nop
+        ld de,760
+tankaloop halt
         dec de
         ld a,d
         or e
         cp 0
-        jr nz,busloop
+        jr nz,tankaloop
         ret
 
 growing	nop
