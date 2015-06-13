@@ -41,6 +41,8 @@ bouncingball:
     ld hl,$5800
     ld bc,768
 
+    ld a, 0
+    ld (loop_counter), a
 
 background_loop:
     ;; Load the colour we want to the 8x8 pixel cell
