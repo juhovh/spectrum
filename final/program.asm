@@ -142,10 +142,13 @@ robos	incbin ../roboto.scr
 song1	incbin ../cycler.pt3
 song2   incbin ../bussipysakilla-slow.pt3
 song3	incbin ../gravity_bling.pt3
-song4	incbin ../kankankan.pt3
 
 org $c000
 PTxPlayer	incbin ../PTxPlay
+
+;; There was no space before the player and it cannot
+;; be relocated without recompiling it with another assembler
+song4	incbin ../kankankan.pt3
 
 org 53248
 ftrc_c	incbin ftrc.bin
