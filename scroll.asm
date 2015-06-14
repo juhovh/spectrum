@@ -22,14 +22,23 @@ scroll_buffer ds 256, $00
 
 credits_string
     db '            Futurice            '
-    db '            spectrum            '
-    db '              demo              '
+    db '           Open Source          '
+    db '        ZX Spectrum 128K        '
+    db '      8-bit Assembly Demo       '
+    db '        with a dash of C        '
     db '                                '
-    db '        Made in Finland         '
+    db '   GitHub: juhovh / spectrum    '
+    db '                                '
+    db '       Coded in Helsinki        '
+    db '  One weekend Retrohackathon    '
+    db '                                '
+    db '   Effects by people with no    '
+    db '   prior Assembly experience    '
+    db '                                '
     db '    Assembled in London, UK     '
     db '                                '
     db '    Thank you for watching!!    '
-    db '     You, sir, are awesome!     '
+    db '        You are awesome!        '
     db '                                '
     db '            Code by:            '
     db '      Juho, Teemu, Antti,       '
@@ -38,10 +47,14 @@ credits_string
     db '            Music by:           '
     db '   Arto, Markus, Jetro, Janos   '
     db '                                '
-    db '           Greetings to:        '
+    db '         Music producer:        '
+    db '             Matiass            '
+    db '                                '
+    db '          Greetings to:         '
     db '            Futurice            '
     db '           Graffathon           '
     db '     Lean IT Consultancies      '
+    db '      Sir Clive Sinclair        '
     db $00
 
 buffer_fill_count    db 0
@@ -73,7 +86,7 @@ SSU_Loop
 ScrollCredits:
     ;; Number of rows to scroll
     ;; Must be divisable by 8
-    ld bc, 384
+    ld bc, 488
     ld a, 0
     ld (buffer_fill_count), a
 SC_Loop
