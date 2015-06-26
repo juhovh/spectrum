@@ -86,7 +86,7 @@ SSU_Loop
 ScrollCredits:
     ;; Number of rows to scroll
     ;; Must be divisable by 8
-    ld bc, 488
+    ld bc, 520
     ld a, 0
     ld (buffer_fill_count), a
 SC_Loop

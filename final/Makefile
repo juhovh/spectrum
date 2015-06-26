@@ -5,7 +5,7 @@ all:
 	python ../z88dkpatcher.py ftrc.tmp ftrc.bin
 	pasmo --tap --name SCREEN screen.asm screen.tap
 	pasmo --tap --name PROGRAM program.asm program.tap
-	cat loader.tap screen.tap program.tap > final.tap
+	cat loader.tap screen.tap program.tap > spinal.tap
 
 wav:
-	appmake +zx --dumb --audio --binfile final.tap
+	appmake +zx --dumb --audio --binfile spinal.tap
